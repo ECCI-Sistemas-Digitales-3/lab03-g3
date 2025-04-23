@@ -2,9 +2,96 @@
 # Lab03: Visualización de Datos en Raspberry Pi Zero W
 
 ## Integrantes
+[Julieth Alejandra Sandoval Estupiñan](https://github.com/Julieth-Sandoval)
 
+[Jose Angel Campo Vargas](https://github.com/Jose-Angel-Campo-Vargas)
+
+[David Leonardo Castaño Madrigal](https://github.com/IngleonardocM)
 
 ## Documentación
+# 📈 Monitor de Temperatura en Raspberry Pi
+
+Este proyecto consiste en un sistema de monitoreo **en tiempo real** de la temperatura del procesador de una Raspberry Pi. Utiliza un comando del sistema para obtener la temperatura, la guarda en un archivo CSV y la representa gráficamente con `matplotlib`.
+
+---
+
+## 🧰 Tecnologías y Librerías Usadas
+
+- Python 3
+- `matplotlib` – Para la visualización en tiempo real
+- `subprocess` – Para ejecutar comandos del sistema
+- `csv` – Para guardar los datos
+- `os` – Para manejo de archivos
+- `time` – Para el control del tiempo
+
+---
+
+## ⚙️ Cómo Funciona
+
+El script:
+
+1. Lee la temperatura del CPU usando el comando `vcgencmd measure_temp`.
+2. Guarda la lectura con su timestamp en un archivo CSV.
+3. Muestra una gráfica que se actualiza en tiempo real.
+4. Mantiene visible solo los últimos segundos de datos (configurable).
+
+---
+
+## 📄 Estructura del Código
+
+### Clase `MonitorTemperaturaRPI`
+
+- `__init__(duracion_max=60, intervalo=0.5, archivo_csv="temperaturas.csv")`:  
+  Inicializa las variables, prepara el archivo CSV y la gráfica.
+
+- `leer_temperatura()`:  
+  Ejecuta el comando para leer la temperatura del CPU.
+
+- `actualizar_datos()`:  
+  Guarda el tiempo y temperatura, y elimina datos antiguos.
+
+- `graficar()`:  
+  Dibuja la gráfica en tiempo real.
+
+- `guardar_csv(tiempo, temperatura)`:  
+  Escribe los datos en el archivo CSV.
+
+- `ejecutar()`:  
+  Ejecuta el ciclo principal del programa hasta que se cierre la gráfica.
+---
+## 📁 Archivos del Proyecto
+
+- `taller.py`: script principal que realiza la lectura de temperatura, guarda los datos en un archivo `.csv` y grafica la información.
+- `temperaturas.csv`: archivo generado con los datos de temperatura (fecha, hora y valor).
+- `parte2.py`: módulo o script complementario relacionado con el tratamiento o visualización de los datos.
+
+---
+
+## 📊 Gráfica de Temperatura
+
+La siguiente imagen representa cómo se ve la gráfica de temperatura generada por el script `taller.py`:
+
+![Gráfica Temperatura CPU](/IMAGENES/Grafica.jpeg)
+
+---
+
+## 📋 Visualización del Archivo CSV
+
+A continuación, se muestra una captura del archivo `temperaturas.csv` con los datos recolectados:
+
+![Archivo CSV](/IMAGENES/Datos.jpeg)
+
+---
+
+## ⚙️ ¿Cómo se ejecutó?
+
+Este proyecto se ejecutó desde **Visual Studio Code** utilizando una conexión remota vía **SSH** a la Raspberry Pi.
+
+Pasos generales:
+1. Se estableció una conexión SSH desde VS Code.
+2. Se ejecutó el script Python en la Raspberry Pi.
+3. El script generó los archivos `temperaturas.csv` y la gráfica.
+4. Las imágenes resultantes se visualizaron y documentaron para su análisis.
 
 ## ❓ Preguntas
 
