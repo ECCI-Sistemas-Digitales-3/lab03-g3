@@ -6,23 +6,50 @@
 
 ## Documentación
 
+## ❓ Preguntas
 
-## Preguntas
+**1. ¿Qué hace este script?**  
+Este proyecto es un monitor en tiempo real de la temperatura de la Raspberry Pi. Mide la temperatura del CPU y la grafica en una ventana interactiva usando matplotlib. Además, guarda los datos en un archivo `.csv` para análisis posteriores.
 
-1. ¿Qué función cumple ```plt.fignum_exists(self.fig.number)``` en el ciclo principal?
+---
 
-2. ¿Por qué se usa ```time.sleep(self.intervalo)``` y qué pasa si se quita?
+**2. ¿Qué hace `plt.fignum_exists(self.fig.number)`?**  
+Sirve para revisar si la ventana del gráfico sigue abierta. Si el usuario cierra la ventana, esta función devuelve `False`, y el ciclo principal del programa se detiene automáticamente. Así el script no sigue corriendo innecesariamente.
 
-3. ¿Qué ventaja tiene usar ```__init__``` para inicializar listas y variables?
+---
 
-4. ¿Qué se está midiendo con ```self.inicio = time.time()```?
+**3. ¿Por qué usamos `time.sleep(self.intervalo)`?**  
+Le da un respiro al programa entre cada lectura de temperatura.  
+Si no lo ponemos, el código corre en un bucle sin parar, usando más CPU y generando lecturas a lo loco.  
+Con esto, el programa espera 0.5 segundos (o el valor que pongas) entre cada muestra.
 
-5. ¿Qué hace exactamente ```subprocess.check_output(...)```?
+---
 
-6. ¿Por qué se almacena ```ahora = time.time() - self.inicio``` en lugar del tiempo absoluto?
+**4. ¿Para qué sirve el `__init__`?**  
+Es el constructor de la clase. Ahí inicializamos todo lo que el programa necesita al empezar: listas, variables, la figura del gráfico, etc.  
+Usar `__init__` hace que el código esté más limpio y organizado, porque solo se inicializa una vez y luego ya puedes usar todo eso en otros métodos de la clase.
 
-7. ¿Por qué se usa ```self.ax.clear()``` antes de graficar?
+---
 
-8. ¿Qué captura el bloque ```try...except``` dentro de ```leer_temperatura()```?
+**5. ¿Qué hace `self.inicio = time.time()`?**  
+Guarda la hora exacta en que se inició el monitoreo.  
+Después, se calcula el tiempo transcurrido (en segundos) usando `time.time() - self.inicio`, lo cual se usa para el eje X del gráfico.
 
-9. ¿Cómo podría modificar el script para guardar las temperaturas en un archivo .```csv```?
+---
+
+**6. ¿Qué hace `subprocess.check_output(...)`?**  
+Ese comando ejecuta un comando del sistema (en este caso, `vcgencmd measure_temp`) y devuelve el resultado.  
+Ese resultado lo limpiamos un poco para que nos quede solo el número de la temperatura. Es como abrir una terminal desde Python y leer lo que devuelve.
+
+---
+
+**7. ¿Por qué no se usa directamente `time.time()` para graficar?**  
+Porque eso daría un número enorme (como `1682197123.348...`), que es difícil de interpretar.  
+En cambio, graficar el tiempo desde que se inició el monitoreo es más útil para análisis:  
+_"A los 10 segundos subió la temperatura"_ es más comprensible que _"A las 3:12:43 PM UTC..."_
+
+---
+
+**8. ¿Por qué se usa `self.ax.clear()`?**  
+Cada vez que se actualiza el gráfico, se borra lo anterior para no dibujar encima.  
+Si no lo hicieras, tendrías líneas repetidas o datos duplicados sobre el mismo gráfico.
